@@ -10,14 +10,14 @@
         {% endblock %}
     </title>
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
-    <link re="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <body>
     <div class="blog-masthead">
         <div class="container">
             <nav class="navbar navbar-inverse">
                 <ul class="nav navbar-nav">
-                    <li><a class="nav-item" href="#">Home</a></li>
+                    <li><a class="nav-item" href="{% url 'index' %}">Home</a></li>
                     <li><a class="nav-item" href="#">Other</a></li>
                     <li><a class="nav-item" href="#">About</a></li>
                 </ul>
