@@ -14,13 +14,32 @@
         <p>{{ post.body }}</p>
         <p>Likes - {{ post.likes }}</p>
         <hr/>
-        {% for c in comments %}
-            <em>{{ c.author }} - {{ c.pubDate }}</em>
-            <br/>
-            <p>{{ c.body }}</p>
-            <p>Likes - {{ c.likes }}</p>
-            <hr/>
-        {% endfor %}
+        <h5>There are {{ num_comments }} comment(s)</h5>
+        <br/>
+        {% if user.is_authenticated %}
+            <h4>Post a comment</h4>
+            <form id="comment_form" method="" action="">
+            {% csrf_token %}
+            <textarea id="comment_area" name="comment_area" rows="5" cols="50"></textarea>
+                <br/>
+                <input type="submit" name="submit" value="Submit"/>
+            </form>
+        {% else %}
+            <h4>Log in to post a comment</h4>
+        {% endif %}
+        <br/>
+        {% if comments %}
+            <div class="row" id="comments">            
+            {% for c in comments %}
+                <div class="comment">
+                    <em>{{ c.author }} - {{ c.pubDate }}</em>
+                    <br/>
+                    <p>{{ c.body }}</p>
+                    <p>Likes - {{ c.likes }}</p>
+                    <hr/>
+                </div>
+            {% endfor %}
+            </div>
     {% endblock %}
 
 {% else %}

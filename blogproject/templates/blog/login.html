@@ -1,0 +1,23 @@
+{% extends 'blog/base.html' %}
+
+{% load staticfiles %}
+
+{% block body_block %}
+    {% if user.is_authenticated %}
+        <p>You are already logged in!</p>
+
+    {% else %}
+
+        <form id="login_form" method="POST" action="/blog/login/">
+            {% csrf_token %}
+
+            Username: <input type="text" name="user" size="50"/>
+            <br/>
+            Password: <input type="password" name="pass" size="50"/>
+            <br/>
+            <input type="submit" name="submit" value="Log In"/>
+
+        </form>
+        
+    {% endif %}
+{% endblock %}
