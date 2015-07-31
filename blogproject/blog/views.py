@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from blog.models import BlogPost, Comment
 from blog.forms import userForm, blogForm, commentForm
 from django.contrib.auth import authenticate, login, logout
@@ -79,13 +79,26 @@ def user_logout(request):
 
 @login_required
 def post_comment(request):
-    slug = request.path_info.split('/')[-2]
+    slug = request.POST.get('path').split('/')[-2]
     parent_post = BlogPost.objects.get(slug=slug)
     user = request.user.get_username()
     today = timezone.now()
     comment = request.POST.get('post_comment')
 
-    posted_comment = Comment(parent_post, user, today, comment)
+    posted_comment = Comment(parent=parent_post,
+                             author=user, 
+                             pubDate=today,
+                             body=comment)
     posted_comment.save()
 
-    return HttpResponse(serialize('json', posted_comment))
+    return render_to_response('blog/comment_template.html', {'comment': posted_comment})
+
+
+@login_required
+def like(request):
+    comment_id = request.POST.get("id")
+    comment = Comment.objects.get(pk=comment_id)
+    comment.likes += 1;
+    comment.save()
+
+    return HttpResponse(comment.likes)

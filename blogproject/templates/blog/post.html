@@ -14,7 +14,7 @@
         <p>{{ post.body }}</p>
         <p>Likes - {{ post.likes }}</p>
         <hr/>
-        <h5>There are {{ num_comments }} comment(s)</h5>
+        <h5>There are <span id="num">{{ num_comments }}</span> comment(s)</h5>
         <br/>
         {% if user.is_authenticated %}
             <h4>Post a comment</h4>
@@ -33,13 +33,18 @@
             {% for c in comments %}
                 <div class="comment">
                     <em>{{ c.author }} - {{ c.pubDate }}</em>
+                    <button id="{{ c.pk }}" role="button" class="btn btn-success btn-xs likebtn" type="button">
+                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                    Like
+                    </button>
                     <br/>
                     <p>{{ c.body }}</p>
-                    <p>Likes - {{ c.likes }}</p>
+                    <p>Likes - <span id="{{ c.pk }}_likes">{{ c.likes }}</span></p>
                     <hr/>
                 </div>
             {% endfor %}
             </div>
+        {% endif %}
     {% endblock %}
 
 {% else %}
