@@ -57,7 +57,7 @@ $(document).ready(function() {
             success: function(data) {
                 var like_id = "#" + c_id + "_likes";
                 $(like_id).text(data.toString());
-                $(this).prop("disabled", true);
+                $("#" + c_id).toggleClass('liked');
             }
         })
     })

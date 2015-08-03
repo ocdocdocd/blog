@@ -1,5 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User
 
 
 class BlogPost(models.Model):
@@ -28,3 +29,9 @@ class Comment(models.Model):
 
     def __unicode__(self):
         return self.author + ' - ' + str(self.pubDate)
+
+
+class UserLikes(models.Model):
+    user = models.ForeignKey(User)
+    comment = models.ForeignKey(Comment)
+    liked = models.BooleanField(default=False)

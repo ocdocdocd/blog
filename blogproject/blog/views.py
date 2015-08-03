@@ -1,7 +1,9 @@
+import sys
 from django.shortcuts import render, render_to_response
-from blog.models import BlogPost, Comment
+from blog.models import BlogPost, Comment, UserLikes
 from blog.forms import userForm, blogForm, commentForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils import timezone
@@ -98,7 +100,18 @@ def post_comment(request):
 def like(request):
     comment_id = request.POST.get("id")
     comment = Comment.objects.get(pk=comment_id)
-    comment.likes += 1;
-    comment.save()
+    username = request.user.get_username()
+    user = User.objects.get(username=username)
+    isLiked = UserLikes.objects.get_or_create(user=user, comment=comment)[0]
+    if not isLiked.liked:
+        comment.likes += 1
+        comment.save()
+        isLiked.liked = True
+        isLiked.save()
+    else:
+        comment.likes -= 1
+        comment.save()
+        isLiked.liked = False
+        isLiked.save()
 
     return HttpResponse(comment.likes)

@@ -10,3 +10,9 @@
 .navbar-inverse {
     border-width: 0px;
 }
+
+.liked {
+    font-style: italic;
+    background-color: #DEF1DE;
+    color: #6F786F;
+}
