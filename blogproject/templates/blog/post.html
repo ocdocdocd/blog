@@ -2,6 +2,8 @@
 
 {% load staticfiles %}
 
+{% load blog_extras %}
+
 {% if post %}
 
     {% block title %} {{ post.title }} {% endblock %}
@@ -31,17 +33,7 @@
         {% if comments %}
             <div class="row" id="comments">            
             {% for c in comments %}
-                <div class="comment">
-                    <em>{{ c.author }} - {{ c.pubDate }}</em>
-                    <button id="{{ c.pk }}" role="button" class="btn btn-success btn-xs likebtn" type="button">
-                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                    Like
-                    </button>
-                    <br/>
-                    <p>{{ c.body }}</p>
-                    <p>Likes - <span id="{{ c.pk }}_likes">{{ c.likes }}</span></p>
-                    <hr/>
-                </div>
+                {% generate_comments c user %}
             {% endfor %}
             </div>
         {% endif %}
