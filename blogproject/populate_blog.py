@@ -12,9 +12,8 @@ import random
 from blog.models import BlogPost, Comment
 
 def addBlogPost(title, author, date):
-    p = BlogPost.objects.get_or_create(title=title)[0]
+    p = BlogPost.objects.get_or_create(title=title, pubDate=date)[0]
     p.author = author
-    p.pubDate = date
     p.slug = slugify(title)
 
     body = '''Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tincidunt vestibulum rutrum. Sed lobortis molestie ipsum a dignissim. Cras non nibh ac metus ornare auctor in ut orci. Proin nibh neque, tincidunt convallis enim sit amet, laoreet varius ipsum. Ut tincidunt interdum arcu. In hac habitasse platea dictumst. Donec scelerisque ligula non interdum ultrices. Etiam sagittis bibendum ullamcorper. Aenean risus velit, dictum id erat non, egestas aliquet dui. Sed congue blandit hendrerit. Sed elementum ac metus nec aliquet. Proin nec cursus sapien. Suspendisse consectetur mattis lorem sit amet porttitor. Donec quis euismod elit. Phasellus mattis vulputate posuere. Quisque sagittis maximus lacus sit amet condimentum.
@@ -54,11 +53,19 @@ def addComment(blogPost, author, pubDate):
 
 
 def populate():
-    post1 = addBlogPost("The first post", "me", timezone.now())
-    post2 = addBlogPost("The second post", "metoo", timezone.now())
-    post3 = addBlogPost("The third Post", "me", timezone.now())
+    #post1 = addBlogPost("The first post", "me", timezone.now())
+    #post2 = addBlogPost("The second post", "metoo", timezone.now())
+    #post3 = addBlogPost("The third Post", "me", timezone.now())
+    p1date = datetime.datetime.strptime("July 14 2015", "%B %d %Y")
+    post1 = addBlogPost("Another post in July", "me", p1date)
+    p2date = datetime.datetime.strptime("July 05 2015", "%B %d %Y")
+    post2 = addBlogPost("A post in July", "me", p2date)
+    p3date = datetime.datetime.strptime("May 26 2015", "%B %d %Y")
+    post3 = addBlogPost("A post in May", "me", p3date)
+    p4date = datetime.datetime.strptime("December 20 2014", "%B %d %Y")
+    post4 = addBlogPost("An old post", "me", p4date)
 
-    posts = [post1, post2, post3]
+    posts = [post1, post2, post3, post4]
     for p in posts:
         addComment(p, "anonymous", timezone.now())
 

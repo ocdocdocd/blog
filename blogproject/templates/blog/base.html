@@ -2,6 +2,8 @@
 
 {% load staticfiles %}
 
+{% load blog_extras %}
+
 <html>
 <head>
     <title>
@@ -44,7 +46,22 @@
                 {% block body_block %}{% endblock %}
             </div>
             <div class="col-sm-3 col-sm-offset-1 sidebar">
-                {% block sidebar %}{% endblock %}
+                {% block sidebar %}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3>About Me</h3>
+                            <p>Hi I'm me. You may also know me as I and myself.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class = "col-sm-12">
+                            <h4>Archive</h4>
+                            <ul id="archivelist">
+                                {% print_dates %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endblock %}
             </div>
         </div>
     </div>

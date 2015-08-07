@@ -1,0 +1,7 @@
+{% if dates %}
+    {% for d in  dates %}
+        <li><a href="{% url 'archive' %}">{{ d }}</a></li>
+    {% endfor %}   
+{% else %}
+    Looks like there haven't been any blog entries yet...
+{% endif %}

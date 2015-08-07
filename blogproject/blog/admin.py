@@ -1,6 +1,14 @@
 from django.contrib import admin
 
-from .models import BlogPost, Comment
+from .models import BlogPost, Comment, Images, UserLikes
 
-admin.site.register(BlogPost)
+
+class ImagesInline(admin.StackedInline):
+    model = Images
+
+
+class BlogPostAdmin(admin.ModelAdmin):
+    inlines = [ImagesInline, ]
+
 admin.site.register(Comment)
+admin.site.register(BlogPost, BlogPostAdmin)

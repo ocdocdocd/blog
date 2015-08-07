@@ -10,7 +10,6 @@ class BlogPost(models.Model):
     slug = models.SlugField()
     body = models.TextField()
     summary = models.TextField()
-    likes = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
@@ -18,6 +17,11 @@ class BlogPost(models.Model):
 
     def __unicode__(self):
         return self.title
+
+
+class Images(models.Model):
+    img = models.ImageField()
+    post = models.ForeignKey(BlogPost)
 
 
 class Comment(models.Model):

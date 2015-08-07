@@ -1,4 +1,6 @@
 import sys
+import calendar
+import datetime
 from django.shortcuts import render, render_to_response
 from blog.models import BlogPost, Comment, UserLikes
 from blog.forms import userForm, blogForm, commentForm
@@ -32,6 +34,22 @@ def blogPost(request, blog_post_slug):
         pass
 
     return render(request, 'blog/post.html', context_dict)
+
+
+def archive(request, archive_slug):
+    try:
+        datestr = archive_slug.replace("-", " ")
+        date = datetime.datetime.strptime(datestr, "%B %Y")
+        last_day = calendar.monthrange(date.year, date.month)[1]
+        start_date = datetime.date(date.year, date.month, date.day)
+        end_date = datetime.date(date.year, date.month, last_day)
+        posts = BlogPost.objects.filter(pubDate__range=(start_date, end_date))
+        context_dict = {"posts": posts}
+
+        return render(request, 'blog/archive.html', context_dict)
+    except:
+        return HttpResponse("There was an error in processing your request")
+
 
 
 def register(request):

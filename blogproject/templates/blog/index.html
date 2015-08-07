@@ -13,17 +13,10 @@
                 <p class="post-summary">
                     {{ post.summary }}
                 </p>
-                <p>Likes - {{ post.likes }}</p>
                 <hr/>
             </div>
         {% endfor %}
     {% else %}
         There aren't any blog posts yet!
     {% endif %}
-{% endblock %}
-
-{% block sidebar %}
-    <div>
-        Sidebar
-    </div>
 {% endblock %}
