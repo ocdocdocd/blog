@@ -1,6 +1,7 @@
 import sys
 import calendar
 import datetime
+import pdb
 from django.shortcuts import render, render_to_response
 from blog.models import BlogPost, Comment, UserLikes
 from blog.forms import userForm, blogForm, commentForm
@@ -101,17 +102,27 @@ def user_logout(request):
 def post_comment(request):
     slug = request.POST.get('path').split('/')[-2]
     parent_post = BlogPost.objects.get(slug=slug)
-    user = request.user.get_username()
+    username = request.user.get_username()
     today = timezone.now()
     comment = request.POST.get('post_comment')
 
     posted_comment = Comment(parent=parent_post,
-                             author=user, 
+                             author=username, 
                              pubDate=today,
-                             body=comment)
+                             body=comment,
+                             likes=1)
     posted_comment.save()
 
-    return render_to_response('blog/comment_template.html', {'comment': posted_comment})
+    user = User.objects.get(username=username)
+    isLiked = UserLikes(user=user, comment=posted_comment)
+    isLiked.liked = True
+    isLiked.save()
+
+    context_dict = {}
+    context_dict['comment'] = posted_comment
+    context_dict['classes'] = "btn btn-success btn-xs likebtn liked"
+
+    return render_to_response('blog/comment_template.html', context_dict)
 
 
 @login_required

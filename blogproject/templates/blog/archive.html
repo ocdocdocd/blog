@@ -1,0 +1,22 @@
+{% extends 'blog/base.html' %}
+
+{% block body_block %}
+    {% if posts %}
+        {% for post in posts %}
+            <div>
+                <h2 class="post-title">
+                    <a href="{% url 'post' post.slug %}">{{ post.title }}</a>
+                </h2>
+                <br/>
+                <em class="pubdate">{{ post.pubDate }}</em>
+                <br/>
+                <p class="post-summary">
+                    {{ post.summary }}
+                </p>
+                <hr/>
+            </div>
+        {% endfor %}
+    {% else %}
+        There aren't any blog posts yet!
+    {% endif %}
+{% endblock %}

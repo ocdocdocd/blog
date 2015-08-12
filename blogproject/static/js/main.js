@@ -42,6 +42,9 @@ $(document).ready(function() {
                 var num_coms = parseInt($("#num").text());
                 num_coms++;
                 $("#num").text(num_coms.toString());
+                $('html, body').animate({
+                    scrollTop: $('.comment:last').offset().top
+                }, 1000);
             }
         })
     })

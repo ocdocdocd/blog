@@ -1,6 +1,6 @@
-{% if dates %}
-    {% for d in  dates %}
-        <li><a href="{% url 'archive' %}">{{ d }}</a></li>
+{% if archives %}
+    {% for a in archives %}
+        <li><a href="{% url 'archive' a.1 %}">{{ a.0 }}</a></li>
     {% endfor %}   
 {% else %}
     Looks like there haven't been any blog entries yet...
