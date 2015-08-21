@@ -107,15 +107,14 @@ def post_comment(request):
     comment = request.POST.get('post_comment')
 
     posted_comment = Comment(parent=parent_post,
-                             author=username, 
+                             author=username,
                              pubDate=today,
                              body=comment,
                              likes=1)
     posted_comment.save()
 
     user = User.objects.get(username=username)
-    isLiked = UserLikes(user=user, comment=posted_comment)
-    isLiked.liked = True
+    isLiked = UserLikes(user=user, comment=posted_comment, liked=True)
     isLiked.save()
 
     context_dict = {}

@@ -13,6 +13,7 @@ class BlogPost(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
+        self.summary = self.body[:500]
         super(BlogPost, self).save(*args, **kwargs)
 
     def __unicode__(self):

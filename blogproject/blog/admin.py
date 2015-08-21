@@ -9,6 +9,9 @@ class ImagesInline(admin.StackedInline):
 
 class BlogPostAdmin(admin.ModelAdmin):
     inlines = [ImagesInline, ]
+    change_form_template = 'blog/admin/change_form.html'
+    prepopulated_fields = {'slug': ('title',), 'summary': ('body',),}
+
 
 admin.site.register(Comment)
 admin.site.register(BlogPost, BlogPostAdmin)

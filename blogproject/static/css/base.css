@@ -16,3 +16,7 @@
     background-color: #DEF1DE;
     color: #6F786F;
 }
+
+.comment:nth-child(odd) {
+    background-color: #E6E6E6;
+}
