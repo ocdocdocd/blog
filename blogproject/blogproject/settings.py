@@ -30,10 +30,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = (
+    'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,7 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
-    'django_wysiwyg',
+    'tinymce',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -68,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.request',
             ],
         },
     },
@@ -107,4 +108,11 @@ STATIC_PATH = os.path.join(BASE_DIR, 'static')
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = 'C:/Users/murrarc1/Documents/coding/blogproject/blogproject/'
+
+MEDIA_ROOT = STATIC_PATH + '/media'
+
 STATICFILES_DIRS = (STATIC_PATH,)
+
+# TinyMCE config settings
+TINYMCE_DEFAULT_CONFIG = {'theme': "advanced", }

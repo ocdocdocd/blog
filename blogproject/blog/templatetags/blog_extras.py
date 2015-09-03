@@ -7,8 +7,9 @@ register = template.Library()
 
 @register.inclusion_tag('blog/comment_template.html')
 def generate_comments(comment, user):
-    isLiked = UserLikes.objects.get_or_create(user=user, comment=comment)[0]
-    if isLiked.liked:
+    if user >= 0:
+        isLiked = UserLikes.objects.get_or_create(user=user, comment=comment)[0]
+    if user >= 0 and isLiked.liked:
         btn_classes = "btn btn-success btn-xs likebtn liked"
     else:
         btn_classes = "btn btn-success btn-xs likebtn"

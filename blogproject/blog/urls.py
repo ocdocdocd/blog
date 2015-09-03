@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
 from blog import views
 
 urlpatterns = patterns('',
@@ -10,4 +10,5 @@ urlpatterns = patterns('',
                        url(r'^post_comment/$', views.post_comment, name='post_comment'),
                        url(r'^like/$', views.like, name="like"),
                        url(r'^archive/(?P<archive_slug>[\w\-]+)/$', views.archive, name='archive'),
+                       url(r'^tinymce/', include('tinymce.urls')),
                        )

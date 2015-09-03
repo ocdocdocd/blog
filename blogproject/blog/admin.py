@@ -1,6 +1,8 @@
 from django.contrib import admin
-
-from .models import BlogPost, Comment, Images, UserLikes
+from django import forms
+from django.db import models
+from .models import BlogPost, Comment, Images
+from tinymce.widgets import TinyMCE
 
 
 class ImagesInline(admin.StackedInline):
@@ -9,8 +11,10 @@ class ImagesInline(admin.StackedInline):
 
 class BlogPostAdmin(admin.ModelAdmin):
     inlines = [ImagesInline, ]
-    change_form_template = 'blog/admin/change_form.html'
-    prepopulated_fields = {'slug': ('title',), 'summary': ('body',),}
+    prepopulated_fields = {'slug': ('title',), 'summary': ('body',), }
+    formfield_overrides = {
+        models.TextField: {'widget': TinyMCE(attrs={'cols': 80, 'rows':30})},
+    }
 
 
 admin.site.register(Comment)

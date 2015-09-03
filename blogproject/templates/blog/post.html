@@ -33,7 +33,11 @@
         {% if comments %}
             <div class="row" id="comments">            
             {% for c in comments %}
-                {% generate_comments c user %}
+                {% if user.is_authenticated %}
+                    {% generate_comments c user %}
+                {% else %}
+                    {% generate_comments c -1 %}
+                {% endif %}
             {% endfor %}
             </div>
         {% endif %}
