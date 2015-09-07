@@ -74,7 +74,7 @@ def register(request):
 
 
 def user_login(request):
-    if request.method == "POST":
+    if (request.method == "POST") and (not request.user.is_authenticated()):
         username = request.POST.get('user')
         password = request.POST.get('pass')
 

@@ -63,10 +63,18 @@ class TestBlogViews(TestCase):
         posts = resp.context['posts']
         self.assertEqual(len(posts), 7)
 
+    def test_logout_logged_in(self):
+        User.objects.create_user(username='auser', password='apass')
+        self.client.login(username='auser', password='apass')
+        resp = self.client.get(reverse('logout'))
+        self.assertContains(resp, "There aren't any blog posts yet!", 1)
+
+
     def test_login_not_logged_in(self):
         u = User.objects.create_user(username='disabled',
                                      password='disable')
         u.is_active = False
+        u.save()
         User.objects.create_user(username='auser',
                                  password='apass')
 
@@ -82,12 +90,25 @@ class TestBlogViews(TestCase):
         # test login with allowed user
         resp = self.client.post(reverse('login'), {'user': 'auser',
                                                    'pass': 'apass'})
-        self.assertRedirects(resp, reverse('login'))
+        self.assertContains(resp, "There aren't any blog posts yet!", 1)
+        self.client.logout()
 
         # test that disabled user rejected
         resp = self.client.post(reverse('login'), {'user': 'disabled',
                                                    'pass': 'disable'})
         self.assertContains(resp, 'Your account is disabled', 1)
+
+    def test_login_logged_in(self):
+        User.objects.create_user(username='auser',
+                                 password='apass')
+        self.client.login(username='auser', password='apass')
+        resp = self.client.get(reverse('login'))
+        self.assertContains(resp, "You are already logged in!", 1)
+
+        resp = self.client.post(reverse('login'), {'user': 'auser',
+                                                   'pass': 'apass'})
+        self.assertContains(resp, "You are already logged in!", 1)
+
 
     def test_register_not_logged_in(self):
         # test that form can be obtained
@@ -148,6 +169,17 @@ class TestBlogViews(TestCase):
         resp = self.client.get('/blog/post/the-post', follow=True)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.context['num_comments'], 5)
+
+    def test_post_comment(self):
+        c = CommentFactory(likes=1)
+        u = User.objects.create_user(username='auser', password='apass')
+        self.client.login(username='auser', password='apass')
+
+        resp = self.client.post(reverse('like'), {'id': c.pk})
+        self.assertEqual('2', resp.content)
+
+        resp = self.client.post(reverse('like'), {'id': c.pk})
+        self.assertEqual('1', resp.content)
 
 
 class TestForms(TestCase):
