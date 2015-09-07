@@ -9,6 +9,7 @@ import datetime
 from blog.models import BlogPost, Comment, UserLikes
 from django.contrib.auth.models import User
 from blog.forms import commentForm, blogForm, userForm
+from blog.templatetags.blog_extras import print_dates
 
 
 def random_string(length=10):
@@ -170,7 +171,7 @@ class TestBlogViews(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.context['num_comments'], 5)
 
-    def test_post_comment(self):
+    def test_like_comment(self):
         c = CommentFactory(likes=1)
         u = User.objects.create_user(username='auser', password='apass')
         self.client.login(username='auser', password='apass')
@@ -180,6 +181,42 @@ class TestBlogViews(TestCase):
 
         resp = self.client.post(reverse('like'), {'id': c.pk})
         self.assertEqual('1', resp.content)
+
+    def test_archive(self):
+        BlogPostFactory.create_batch(20)
+        context = print_dates()
+        dates = context['archives']
+
+        found_posts = 0
+        for date in dates:
+            resp = self.client.get(reverse('archive',
+                                           kwargs={'archive_slug': date[1]}))
+            posts = resp.context['posts']
+            self.assertFalse(len(posts) == 0)
+            found_posts += len(posts)
+
+        self.assertEqual(20, found_posts)
+
+        resp = self.client.get(reverse('archive',
+                                       kwargs={'archive_slug': 'July-2012'}))
+        self.assertEqual(len(resp.context['posts']), 0)
+
+        resp = self.client.get(reverse('archive',
+                                       kwargs={'archive_slug': 'July'}))
+        self.assertContains(resp, "There was an error", 1)
+
+    def test_post_comment(self):
+        post = BlogPostFactory()
+        slug = post.slug
+        user = UserFactory()
+        self.client.login(username=user.username, password=user.password)
+        comment = "This is a comment"
+
+        resp = self.client.post(reverse('post_comment'),
+                                {'post_comment': comment},
+                                follow=True)
+        self.assertContains(resp, comment, 1)
+
 
 
 class TestForms(TestCase):
