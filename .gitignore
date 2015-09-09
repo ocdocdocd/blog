@@ -1,2 +1,6 @@
 blogproject\blogproject\key.py 
 *.pyc
+*.jpg
+*.png
+*.gif
+*.tif

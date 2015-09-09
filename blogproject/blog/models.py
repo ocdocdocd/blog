@@ -1,14 +1,13 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
-from tinymce.models import HTMLField
 
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=128)
     author = models.CharField(max_length=64)
     pubDate = models.DateField()
-    slug = models.SlugField()
+    slug = models.SlugField(max_length=128)
     body = models.TextField()
     summary = models.TextField()
 
