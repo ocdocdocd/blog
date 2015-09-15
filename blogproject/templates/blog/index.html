@@ -12,9 +12,9 @@
                 <br/>
                 <p class="post-summary">
                     {% if forloop.first %}
-                        {{ post.body }} 
+                        {{ post.body|safe }} 
                     {% else %}
-                        {{ post.summary }}
+                        {{ post.summary|safe }}
                     {% endif %}
                 </p>
                 <hr/>

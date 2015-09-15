@@ -13,7 +13,7 @@
         <br/>
         <h4>{{ post.pubDate }}</h4>
         <br/>
-        <p>{{ post.body }}</p>
+        <p>{{ post.body|safe }}</p>
         <p>Likes - {{ post.likes }}</p>
         <hr/>
         <h5>There are <span id="num">{{ num_comments }}</span> comment(s)</h5>
