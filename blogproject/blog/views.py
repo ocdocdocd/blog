@@ -1,10 +1,9 @@
-import sys
 import calendar
 import datetime
 import pdb
 from django.shortcuts import render, render_to_response
 from blog.models import BlogPost, Comment, UserLikes
-from blog.forms import userForm, blogForm, commentForm
+from blog.forms import userForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -14,13 +13,23 @@ from django.core.serializers import serialize
 
 
 def index(request):
-    posts = BlogPost.objects.order_by('-pubDate')
+    posts = BlogPost.objects.order_by('-pubDate')[:5]
 
     context_dict = {'posts': posts}
     return render(request, 'blog/index.html', context_dict)
 
 
-def blogPost(request, blog_post_slug):
+def get_entries(request):
+    page = int(request.POST.get('page_num'))
+    start = page * 5
+    end = start + 5
+    posts = BlogPost.objects.order_by('-pubDate')[start:end]
+    context_dict = {'posts': posts}
+
+    return render_to_response('blog/post_template.html', context_dict)
+
+
+def blog_post(request, blog_post_slug):
     context_dict = {}
 
     try:
@@ -50,7 +59,6 @@ def archive(request, archive_slug):
         return render(request, 'blog/archive.html', context_dict)
     except:
         return HttpResponse("There was an error in processing your request")
-
 
 
 def register(request):

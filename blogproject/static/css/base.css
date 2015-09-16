@@ -24,3 +24,15 @@
 pre {
     padding: 0px;
 }
+
+hr {
+    border-top: 2px dotted #B3B3B3;
+}
+
+h2 > a {
+    color: #333;
+}
+
+a:hover {
+    text-decoration: none;
+}

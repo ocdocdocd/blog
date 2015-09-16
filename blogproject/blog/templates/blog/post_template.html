@@ -1,0 +1,18 @@
+{% for post in posts %}
+    <div>
+        <h2 class="post-title">
+            <a href="{% url 'post' post.slug %}">{{ post.title }}</a>
+        </h2>
+        <br/>
+        <em class="pubdate">{{ post.pubDate }}</em>
+        <br/>
+        <p class="post-summary">
+            {% if forloop.first %}
+                {{ post.body|safe }} 
+            {% else %}
+                {{ post.summary|safe }}
+            {% endif %}
+        </p>
+        <hr/>
+    </div>
+{% endfor %}

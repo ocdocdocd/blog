@@ -1,3 +1,5 @@
+var page = 1;
+
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
@@ -19,6 +21,7 @@ function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
+
 $.ajaxSetup({
     beforeSend: function(xhr, settings) {
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -26,6 +29,24 @@ $.ajaxSetup({
         }
     }
 });
+
+function getMoreEntries(page) {
+    $.ajax('/blog/get_entries/', {
+        type: 'POST',
+        dataType: 'html',
+        data: {page_num: page},
+        success: function(data) {
+            $("#posts").append(data);
+        }
+    })
+    return 1;
+}
+
+$(window).scroll(function() {
+    if ($(window).scrollTop() + $(window).height() >= $(document).height() - 150) {
+        page += getMoreEntries(page);
+    }
+})
 
 $(document).ready(function() {
     $("#comment_form").submit(function(event) {
