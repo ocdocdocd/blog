@@ -21,6 +21,17 @@
     background-color: #E6E6E6;
 }
 
+#comment_area {
+    border-radius: 5px;
+    border: 1px solid #808080;
+    margin-bottom: 10px;
+    box-shadow: 5px 5px 10px gray;
+}
+
+body {
+    background-color: #FCFCFC;
+}
+
 pre {
     padding: 0px;
 }
@@ -35,4 +46,5 @@ h2 > a {
 
 a:hover {
     text-decoration: none;
+    color: #333;
 }
