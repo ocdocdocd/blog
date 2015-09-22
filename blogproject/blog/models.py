@@ -1,6 +1,8 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 
+from taggit.managers import TaggableManager
+
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=128)
@@ -9,6 +11,7 @@ class BlogPost(models.Model):
     slug = models.SlugField(max_length=128)
     body = models.TextField()
     summary = models.TextField()
+    categories = TaggableManager()
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
