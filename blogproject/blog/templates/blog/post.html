@@ -14,33 +14,20 @@
         <h4>{{ post.pubDate }}</h4>
         <br/>
         <p>{{ post.body|safe }}</p>
-        <p>Likes - {{ post.likes }}</p>
         <hr/>
-        <h5>There are <span id="num">{{ num_comments }}</span> comment(s)</h5>
-        <br/>
-        {% if user.is_authenticated %}
-            <h4>Post a comment</h4>
-            <form id="comment_form" method="" action="">
-            {% csrf_token %}
-            <textarea id="comment_area" name="comment_area" rows="5" cols="100"></textarea>
-                <br/>
-                <input type="submit" name="submit" value="Submit"/>
-            </form>
-        {% else %}
-            <h4>Log in to post a comment</h4>
-        {% endif %}
-        <br/>
-        {% if comments %}
-            <div class="row" id="comments">            
-            {% for c in comments %}
-                {% if user.is_authenticated %}
-                    {% generate_comments c user %}
-                {% else %}
-                    {% generate_comments c -1 %}
-                {% endif %}
-            {% endfor %}
-            </div>
-        {% endif %}
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES * * */
+            var disqus_shortname = 'rymurblog';
+            
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
     {% endblock %}
 
 {% else %}
