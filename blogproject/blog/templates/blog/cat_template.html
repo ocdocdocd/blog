@@ -1,0 +1,7 @@
+{% if cats %}
+    {% for c in cats %}
+        <li><a href="{% url 'category' c.1 %}">{{ c.0 }}</a></li>
+    {% endfor %}   
+{% else %}
+    There aren't any categories yet
+{% endif %}

@@ -42,10 +42,12 @@ function getMoreEntries(page) {
     return 1;
 }
 
-$(window).scroll(function() {
-    if ($(window).scrollTop() + $(window).height() >= $(document).height() - 150) {
-        page += getMoreEntries(page);
-    }
+$(document).ready(function() {
+    $(window).scroll(function() {
+        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 150) {
+            page += getMoreEntries(page);
+        }
+    })
 })
 
 $(document).ready(function() {

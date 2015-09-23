@@ -53,9 +53,18 @@
                     </div>
                     <hr/>
                     <div class="row">
+                        <div class="col-sm-12">
+                            <h4>Categories</h4>
+                            <ul id="categorylist" class="list-unstyled">
+                                {% print_categories %}
+                            </ul>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
                         <div class = "col-sm-12">
                             <h4>Archive</h4>
-                            <ul id="archivelist">
+                            <ul id="archivelist" class="list-unstyled">
                                 {% print_dates %}
                             </ul>
                         </div>

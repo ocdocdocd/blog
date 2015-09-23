@@ -45,6 +45,17 @@ def archive(request, archive_slug):
         posts = BlogPost.objects.filter(pubDate__range=(start_date, end_date))
         context_dict = {"posts": posts}
 
-        return render(request, 'blog/archive.html', context_dict)
+        return render(request, 'blog/results.html', context_dict)
+    except:
+        return HttpResponse("There was an error in processing your request")
+
+
+def category(request, cat_slug):
+    try:
+        category = cat_slug.replace('-', ' ')
+        posts = BlogPost.objects.filter(categories__name__in=[category])
+        context_dict = {"posts": posts}
+
+        return render(request, 'blog/results.html', context_dict)
     except:
         return HttpResponse("There was an error in processing your request")
