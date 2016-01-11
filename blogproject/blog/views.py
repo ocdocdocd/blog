@@ -6,6 +6,9 @@ from django.http import HttpResponse
 
 
 def index(request):
+    '''
+    Renders main page populated with the 5 most recent blog posts.
+    '''
     posts = BlogPost.objects.order_by('-pubDate')[:5]
 
     context_dict = {'posts': posts}
@@ -13,6 +16,11 @@ def index(request):
 
 
 def get_entries(request):
+    '''
+    Fetches 5 more blog posts to append to the page.
+
+    Returns 5 blog posts in pre-formatted in HTML.
+    '''
     page = int(request.POST.get('page_num'))
     start = page * 5
     end = start + 5
@@ -23,6 +31,9 @@ def get_entries(request):
 
 
 def blog_post(request, blog_post_slug):
+    '''
+    Renders the full page for a blog post.
+    '''
     context_dict = {}
 
     try:
@@ -36,6 +47,9 @@ def blog_post(request, blog_post_slug):
 
 
 def archive(request, archive_slug):
+    '''
+    Renders a page with all blog posts for the month given by archive_slug.
+    '''
     try:
         datestr = archive_slug.replace("-", " ")
         date = datetime.datetime.strptime(datestr, "%B %Y")
@@ -51,6 +65,9 @@ def archive(request, archive_slug):
 
 
 def category(request, cat_slug):
+    '''
+    Renders all blog posts that belong to the category given by cat_slug.
+    '''
     try:
         category = cat_slug.replace('-', ' ')
         posts = BlogPost.objects.filter(categories__name__in=[category])

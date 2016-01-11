@@ -12,6 +12,10 @@
                 <br/>
                 <em class="pubdate">{{ post.pubDate }}</em>
                 <br/>
+                <span class="glyphicon glyphicon-comment">
+                    <a href="{% url 'post' post.slug %}#disqus_thread">comments</a>
+                </span>
+                <br/>
                 <p class="post-summary">
                     {% if forloop.first %}
                         {{ post.body|safe }} 

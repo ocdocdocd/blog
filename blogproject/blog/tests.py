@@ -70,7 +70,6 @@ class TestBlogViews(TestCase):
         resp = self.client.get(reverse('logout'))
         self.assertContains(resp, "There aren't any blog posts yet!", 1)
 
-
     def test_login_not_logged_in(self):
         u = User.objects.create_user(username='disabled',
                                      password='disable')
@@ -109,7 +108,6 @@ class TestBlogViews(TestCase):
         resp = self.client.post(reverse('login'), {'user': 'auser',
                                                    'pass': 'apass'})
         self.assertContains(resp, "You are already logged in!", 1)
-
 
     def test_register_not_logged_in(self):
         # test that form can be obtained
@@ -216,7 +214,6 @@ class TestBlogViews(TestCase):
                                 {'post_comment': comment},
                                 follow=True)
         self.assertContains(resp, comment, 1)
-
 
 
 class TestForms(TestCase):

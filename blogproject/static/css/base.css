@@ -48,3 +48,7 @@ a:hover {
     text-decoration: none;
     color: #333;
 }
+
+li > a:hover {
+    font-size: 1.4em;
+}
