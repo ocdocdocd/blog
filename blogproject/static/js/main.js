@@ -1,6 +1,7 @@
 var page = 1;
 
 function getCookie(name) {
+    // Fetches a cookie with a given name
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
         var cookies = document.cookie.split(';');
@@ -15,6 +16,8 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+// Get the CSRF token cookie
 var csrftoken = getCookie('csrftoken');
 
 function csrfSafeMethod(method) {
@@ -23,6 +26,7 @@ function csrfSafeMethod(method) {
 }
 
 $.ajaxSetup({
+    // Necessary to make AJAX calls succeed with CSRF protection
     beforeSend: function(xhr, settings) {
         if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
@@ -30,7 +34,22 @@ $.ajaxSetup({
     }
 });
 
+function throttle (callback, limit) {
+    // Limits the rate at which a function can be called
+    var wait = false;
+    return function() {
+        if (!wait) {
+            callback.call();
+            wait = true;
+            setTimeout(function () {
+                wait = false;
+            }, limit);
+        }
+    }
+}
+
 function getMoreEntries(page) {
+    // Fetches more blog posts and appends them to the page
     $.ajax('/blog/get_entries/', {
         type: 'POST',
         dataType: 'html',
@@ -43,11 +62,12 @@ function getMoreEntries(page) {
 }
 
 $(document).ready(function() {
-    $(window).scroll(function() {
-        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 150) {
+    // When window scrolls to a threshold load more blog posts
+    $(window).scroll(throttle(function() {
+        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
             page += getMoreEntries(page);
         }
-    })
+    }, 200))
 })
 
 $(document).ready(function() {
