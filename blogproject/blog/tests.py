@@ -124,6 +124,7 @@ class TestBlogViews(TestCase):
         context = print_dates()
         dates = context['archives']
 
+        # Test that archive() succeeds for dates that have posts
         found_posts = 0
         for date in dates:
             resp = self.client.get(reverse('archive',
@@ -134,10 +135,13 @@ class TestBlogViews(TestCase):
 
         self.assertEqual(20, found_posts)
 
+        # Test that archive() returns empty page for dates that have no posts
         resp = self.client.get(reverse('archive',
                                        kwargs={'archive_slug': 'July-2012'}))
         self.assertEqual(len(resp.context['posts']), 0)
+        self.assertContains(resp, 'No results found.', 1)
 
+        # Test that invalid input is returned with an error
         resp = self.client.get(reverse('archive',
                                        kwargs={'archive_slug': 'July'}))
         self.assertContains(resp, "There was an error", 1)
