@@ -60,7 +60,7 @@ class TestBlogViews(TestCase):
         Tests the get_entries() view with no posts.
         '''
         resp = self.client.post(reverse('get_entries'),
-                                kwargs={'page_num': 1})
+                                {'page_num': 1})
         posts = resp.context['posts']
         self.assertEqual(len(posts), 0)
         self.assertContains(resp, '', 1)
@@ -72,7 +72,7 @@ class TestBlogViews(TestCase):
         BlogPostFactory.create_batch(12)
         # Test getting first page of extra posts
         resp = self.client.post(reverse('get_entries'),
-                                kwargs={'page_num': 1})
+                                {'page_num': 1})
         posts = resp.context['posts']
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(len(posts), 5)
@@ -80,7 +80,7 @@ class TestBlogViews(TestCase):
         # Test getting second page of extra posts which should return
         # only two posts instead of five
         resp = self.client.post(reverse('get_entries'),
-                                kwargs={'page_num': 2})
+                                {'page_num': 2})
         posts = resp.context['posts']
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(len(posts), 2)
@@ -88,7 +88,7 @@ class TestBlogViews(TestCase):
         # Test getting non-existent page of extra posts which should
         # return nothing
         resp = self.client.post(reverse('get_entries'),
-                                kwargs={'page_num': 3})
+                                {'page_num': 3})
         posts = resp.context['posts']
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(len(posts), 0)
@@ -107,7 +107,7 @@ class TestBlogViews(TestCase):
         # Test getting a post that doesn't exist
         resp = self.client.get(reverse('post',
                                        kwargs={'blog_post_slug': 'derp'}))
-        self.assertEqual(len(resp.context), 0)
+        self.assertFalse('post' in resp.context)
 
     def test_archive(self):
         '''
