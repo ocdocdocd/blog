@@ -163,10 +163,10 @@ class TestBlogViews(TestCase):
         resp = self.client.get(reverse('category',
                                        kwargs={'cat_slug': 'foo'}))
         self.assertEqual(len(resp.context['posts']), 0)
-        self.assertContains(resp, "There aren't any blog posts yet!", 1)
+        self.assertContains(resp, "No results found.", 1)
 
         # test on an input that will become blank after processing
         resp = self.client.get(reverse('category',
                                        kwargs={'cat_slug': '-'}))
         self.assertEqual(len(resp.context['posts']), 0)
-        self.assertContains(resp, "There aren't any blog posts yet!", 1)
+        self.assertContains(resp, "No results found.", 1)
